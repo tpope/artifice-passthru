@@ -56,7 +56,7 @@ module Artifice # :nodoc:
     def self.to_rack_response net_http_response
       # There's some voodoo magic going on that makes the real Net::HTTP#request method populate our response body for us?
       headers = net_http_response.instance_variable_get('@header').inject({}){|all,this| all[this.first] = this.last.join("\n"); all }
-      [ net_http_response.code, headers, [] ]
+      [ net_http_response.code, headers, [net_http_response.body] ]
     end
 
     # Given the last_request_info (that would normally be passed to Net::HTTP#request), 

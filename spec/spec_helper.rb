@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require
 require File.dirname(__FILE__) + '/../lib/artifice-passthru'
-require 'open-uri'
 require 'minitest/autorun'
 
 # Returns an available port number (taken from Capybara::Server)

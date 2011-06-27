@@ -23,11 +23,13 @@ Artifice.activate_with lambda { |env|
 describe Artifice::Passthru do
 
   it 'Rack app can mock Net::HTTP response' do
-    open($url + 'foo').read.must_equal 'Hi from rack app'
+    response = Net::HTTP.get_response URI.parse($url + 'foo')
+    response.body.must_equal 'Hi from rack app'
   end
 
-  it 'Artifice.passthru! returns the result of making a real Net::HTTP response' do
-    open($url + 'real').read.must_equal 'Hi from REAL app'
+  it 'Artifice.passthru! returns the correct response body' do
+    response = Net::HTTP.get_response URI.parse($url + 'real')
+    response.body.must_equal 'Hi from REAL app'
   end
 
   it 'Artifice.passthru! returns the correct response code' do
@@ -37,7 +39,6 @@ describe Artifice::Passthru do
 
   it 'Artifice.passthru! returns the correct response headers' do
     response = Net::HTTP.get_response URI.parse($url + 'real')
-    puts response.instance_variable_get('@header').inspect
     response['custom'].must_equal 'the value'
   end
 
