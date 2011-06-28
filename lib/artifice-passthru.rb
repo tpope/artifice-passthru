@@ -55,6 +55,7 @@ module Artifice # :nodoc:
 
     # Makes a real Net::HTTP request and returns the response, converted to a Rack response
     def self.make_real_request_and_return_response!
+      raise 'Artifice.passthru! was called but no previous Artifice request was found to make via real Net::HTTP' if last_request_info.nil?
       to_rack_response make_real_request(last_request_info)
     end
 

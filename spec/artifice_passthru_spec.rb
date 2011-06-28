@@ -135,4 +135,12 @@ describe Artifice::Passthru do
     ExampleModule::InnerClass.new.instance_get.body.must_equal 'Hi from REAL app'
   end
 
+  it 'raises a useful exception if Artifice.passthru! is called but no previous response was made to Artifice' do
+    Artifice::Passthru.last_request_info = nil
+
+    lambda {
+      Artifice.passthru!
+    }.must_raise RuntimeError, 'Artifice.passthru! was called but no previous Artifice request was found to make via real Net::HTTP'
+  end
+
 end
