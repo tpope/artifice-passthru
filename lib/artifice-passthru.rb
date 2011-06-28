@@ -9,6 +9,12 @@ module Artifice # :nodoc:
     Artifice::Passthru.make_real_request_and_return_response!
   end
 
+  # Given a constant (class or module), this gives it access to the *real* Net::HTTP so 
+  # every request made from within this class/module will use the real Net::HTTP
+  def self.use_real_net_http class_or_module
+    Artifice::Passthru.setup_to_use_real_net_http class_or_module
+  end
+
   # Artifice Passthru
   module Passthru
 
@@ -64,6 +70,19 @@ module Artifice # :nodoc:
     def self.make_real_request request_info
       http = Artifice::NET_HTTP.new request_info.address, request_info.port
       http.request request_info.request, request_info.body, &request_info.block
+    end
+
+    # Given a constant (class or module), this gives it access to the *real* Net::HTTP so 
+    # every request made from within this class/module will use the real Net::HTTP
+    #
+    # Taken from: http://matschaffer.com/2011/04/net-http-mock-cucumber/
+    def self.setup_to_use_real_net_http class_or_module
+      class_or_module.class_eval %{
+        Net = ::Net.dup
+        module Net
+          HTTP = Artifice::NET_HTTP
+        end
+      }
     end
 
     # Simply stores the arguments that are passed and then calls "super" (request_without_passthru_argument_tracking)
