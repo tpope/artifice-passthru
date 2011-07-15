@@ -40,4 +40,9 @@ Artifice.activate_with lambda { |env|
 
 That's all!
 
+License
+-------
+
+Artifice::Passthru is released under the MIT license.
+
 [artifice]: https://github.com/wycats/artifice
