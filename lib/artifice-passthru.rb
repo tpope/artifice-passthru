@@ -35,9 +35,11 @@ module Artifice # :nodoc:
     # When Artifice::Passthru is included into Artifice::Net::HTTP, it uses "alias_method_chain" 
     # to override the #request method so we can get the arguments that were passed.
     def self.included base
-      base.class_eval do
-        alias_method :request_without_passthru_argument_tracking, :request
-        alias_method :request, :request_with_passthru_argument_tracking
+      unless base.instance_methods.map(&:to_s).include?('request_without_passthru_argument_tracking')
+        base.class_eval do
+          alias_method :request_without_passthru_argument_tracking, :request
+          alias_method :request, :request_with_passthru_argument_tracking
+        end
       end
     end
 
@@ -95,4 +97,5 @@ module Artifice # :nodoc:
 end
 
 # Inject our #request method override into Artifice's implementation of Net::HTTP
+# TODO make this optional - move the module out of here into its own file!
 Artifice::Net::HTTP.send :include, Artifice::Passthru

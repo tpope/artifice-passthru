@@ -1,17 +1,23 @@
+PATH
+  remote: .
+  specs:
+    artifice-passthru (0.1.0)
+      artifice
+
 GEM
   remote: http://rubygems.org/
   specs:
     artifice (0.6)
       rack-test
-    minitest (2.3.1)
-    rack (1.3.0)
-    rack-test (0.6.0)
+    minitest (2.5.0)
+    rack (1.3.2)
+    rack-test (0.6.1)
       rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  artifice
+  artifice-passthru!
   minitest
   rack
