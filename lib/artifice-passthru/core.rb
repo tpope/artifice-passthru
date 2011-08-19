@@ -1,3 +1,5 @@
+require 'artifice-passthru/version'
+
 module Artifice
 
   # Artifice.passthru! returns a Rack response created by making a *real* Net::HTTP 

@@ -1,6 +1,8 @@
+require File.expand_path('../lib/artifice-passthru/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = 'artifice-passthru'
-  s.version     = '0.1.0'
+  s.version     = Artifice::Passthru::VERSION
   s.summary     = 'Easily use real Net::HTTP with Artifice'
   s.description = 'Artifice extension that allows you to let certain requests pass thru to use HTTP'
   s.author      = 'remi'
