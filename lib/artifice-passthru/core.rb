@@ -21,11 +21,12 @@ module Artifice
     # Simple class for storing information about the last #request that was made, 
     # allowing us to recreate the request
     class RequestInfo
-      attr_accessor :address, :port, :request, :body, :block
+      attr_accessor :address, :port, :use_ssl, :request, :body, :block
 
-      def initialize address, port, req, body, block
+      def initialize address, port, use_ssl, req, body, block
         self.address = address
         self.port    = port
+        self.use_ssl = use_ssl
         self.request = req
         self.body    = body
         self.block   = block
@@ -72,6 +73,7 @@ module Artifice
     # makes a real request and returns the Net::HTTPResponse
     def self.make_real_request request_info
       http = Artifice::NET_HTTP.new request_info.address, request_info.port
+      http.use_ssl = request_info.use_ssl
       http.request request_info.request, request_info.body, &request_info.block
     end
 
@@ -90,7 +92,7 @@ module Artifice
 
     # Simply stores the arguments that are passed and then calls "super" (request_without_passthru_argument_tracking)
     def request_with_passthru_argument_tracking req, body = nil, &block
-      Artifice::Passthru.last_request_info = RequestInfo.new address, port, req, body, block
+      Artifice::Passthru.last_request_info = RequestInfo.new address, port, use_ssl?, req, body, block
       request_without_passthru_argument_tracking req, body, &block
     end
   end
